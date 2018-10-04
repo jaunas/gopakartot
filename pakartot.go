@@ -8,11 +8,11 @@ import (
 func main() {
 	apiClient := NewApiClient()
 
-	albumsResponse, err := apiClient.getMostLikedAlbums(2)
+	albumsResponse, err := apiClient.getGenreAlbums(1, 2)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%+v\n", albumsResponse)
+	fmt.Printf("%+v\n", albumsResponse.Albums)
 }

@@ -68,3 +68,25 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumRespons
 
 	return albumResponse, nil
 }
+
+func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) (*GenreAlbumResponse, error) {
+	response, err := apiClient.request(map[string]string{
+		"action": "albums",
+		"url":    "genres",
+		"id":     strconv.Itoa(genreId),
+		"page":   strconv.Itoa(page),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	albumResponse := &GenreAlbumResponse{}
+	json.Unmarshal(response, albumResponse)
+
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
+}
