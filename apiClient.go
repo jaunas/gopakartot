@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"net/url"
+	"strings"
 )
 
 type ApiClient struct {
@@ -47,12 +48,19 @@ func (apiClient *ApiClient) request(parameters map[string]string) ([]byte, error
 		log.Fatal(err)
 	}
 
-	if !json.Valid(body) {
-		err := errors.New("Response is not valid JSON.")
-		return nil, err
+	if json.Valid(body) {
+		return body, nil
 	}
 
-	return body, nil
+	lines := strings.Split(string(body), "\n")
+
+	for _, line := range lines {
+		if json.Valid([]byte(line)) {
+			return []byte(line), nil
+		}
+	}
+
+	return nil, errors.New("Response is not valid JSON.")
 }
 
 func (apiClient *ApiClient) getGengres() []Genre {

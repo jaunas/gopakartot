@@ -10,5 +10,5 @@ func main() {
 	// 	fmt.Println(genre.Id, genre.Name)
 	// }
 
-	fmt.Printf("%+v\n", apiClient.getMostLikedAlbums(1))
+	fmt.Printf("%+v\n", apiClient.getMostLikedAlbums(1).ErrorMessage)
 }
