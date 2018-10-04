@@ -1,10 +1,11 @@
 package main
 
 type BaseResponse struct {
-	Kinas       int `json:"kinas"`
-	UserLogin   int `json:"user_login"`
-	CodeConfirm int `json:"code_confirm"`
-	CheckPhone  int `json:"checkphone"`
+	Kinas        int    `json:"kinas"`
+	UserLogin    int    `json:"user_login"`
+	CodeConfirm  int    `json:"code_confirm"`
+	CheckPhone   int    `json:"checkphone"`
+	ErrorMessage string `json:"error_message"`
 }
 
 type Genre struct {

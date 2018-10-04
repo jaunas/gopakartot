@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,7 +25,7 @@ func NewApiClient() *ApiClient {
 	return apiClient
 }
 
-func (apiClient *ApiClient) request(parameters map[string]string) []byte {
+func (apiClient *ApiClient) request(parameters map[string]string) ([]byte, error) {
 	values := url.Values{
 		"username": {apiClient.username},
 		"password": {apiClient.password},
@@ -46,13 +47,22 @@ func (apiClient *ApiClient) request(parameters map[string]string) []byte {
 		log.Fatal(err)
 	}
 
-	return body
+	if !json.Valid(body) {
+		err := errors.New("Response is not valid JSON.")
+		return nil, err
+	}
+
+	return body, nil
 }
 
 func (apiClient *ApiClient) getGengres() []Genre {
-	response := apiClient.request(map[string]string{
+	response, err := apiClient.request(map[string]string{
 		"url": "genres",
 	})
+
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	var genreResponse GenreResponse
 	json.Unmarshal(response, &genreResponse)
