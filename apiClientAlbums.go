@@ -2,10 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"errors"
 )
 
-func (apiClient *ApiClient) getNewMusicAlbums(page int) NewMusicAlbumResponse {
+func (apiClient *ApiClient) getNewMusicAlbums(page int) (*NewMusicAlbumResponse, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "new_music_albums",
 		"url":    "home",
@@ -13,16 +13,20 @@ func (apiClient *ApiClient) getNewMusicAlbums(page int) NewMusicAlbumResponse {
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	var albumResponse NewMusicAlbumResponse
+	albumResponse := &NewMusicAlbumResponse{}
 	json.Unmarshal(response, &albumResponse)
 
-	return albumResponse
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
 }
 
-func (apiClient *ApiClient) getNewestAlbums(page int) NewestAlbumResponse {
+func (apiClient *ApiClient) getNewestAlbums(page int) (*NewestAlbumResponse, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "newest_albums",
 		"url":    "home",
@@ -30,16 +34,20 @@ func (apiClient *ApiClient) getNewestAlbums(page int) NewestAlbumResponse {
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	var albumResponse NewestAlbumResponse
-	json.Unmarshal(response, &albumResponse)
+	albumResponse := &NewestAlbumResponse{}
+	json.Unmarshal(response, albumResponse)
 
-	return albumResponse
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
 }
 
-func (apiClient *ApiClient) getMostLikedAlbums(page int) MostLikedAlbumResponse {
+func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumResponse, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "most_liked_albums",
 		"url":    "home",
@@ -47,11 +55,15 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) MostLikedAlbumResponse 
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	var albumResponse MostLikedAlbumResponse
-	json.Unmarshal(response, &albumResponse)
+	albumResponse := &MostLikedAlbumResponse{}
+	json.Unmarshal(response, albumResponse)
 
-	return albumResponse
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
 }

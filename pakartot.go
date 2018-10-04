@@ -1,14 +1,18 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 func main() {
 	apiClient := NewApiClient()
-	// request := apiClient.getGengres()
-	//
-	// for _, genre := range request {
-	// 	fmt.Println(genre.Id, genre.Name)
-	// }
 
-	fmt.Printf("%+v\n", apiClient.getMostLikedAlbums(1).ErrorMessage)
+	albumsResponse, err := apiClient.getMostLikedAlbums(0)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Printf("%+v\n", albumsResponse)
 }
