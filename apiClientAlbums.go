@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 )
 
 func (apiClient *ApiClient) getNewMusicAlbums(page int) NewMusicAlbumResponse {
@@ -24,7 +23,6 @@ func (apiClient *ApiClient) getNewestAlbums(page int) NewestAlbumResponse {
 		"url":    "home",
 		"page":   string(page),
 	})
-	fmt.Println(string(response))
 
 	var albumResponse NewestAlbumResponse
 	json.Unmarshal(response, &albumResponse)
@@ -38,7 +36,6 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) MostLikedAlbumResponse 
 		"url":    "home",
 		"page":   string(page),
 	})
-	fmt.Println(string(response))
 
 	var albumResponse MostLikedAlbumResponse
 	json.Unmarshal(response, &albumResponse)
