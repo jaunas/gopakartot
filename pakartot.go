@@ -8,7 +8,7 @@ import (
 func main() {
 	apiClient := NewApiClient()
 
-	albumsResponse, err := apiClient.getMostLikedAlbums(0)
+	albumsResponse, err := apiClient.getMostLikedAlbums(2)
 
 	if err != nil {
 		log.Fatal(err)

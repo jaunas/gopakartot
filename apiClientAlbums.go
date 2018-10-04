@@ -3,13 +3,14 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"strconv"
 )
 
 func (apiClient *ApiClient) getNewMusicAlbums(page int) (*NewMusicAlbumResponse, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "new_music_albums",
 		"url":    "home",
-		"page":   string(page),
+		"page":   strconv.Itoa(page),
 	})
 
 	if err != nil {
@@ -30,7 +31,7 @@ func (apiClient *ApiClient) getNewestAlbums(page int) (*NewestAlbumResponse, err
 	response, err := apiClient.request(map[string]string{
 		"action": "newest_albums",
 		"url":    "home",
-		"page":   string(page),
+		"page":   strconv.Itoa(page),
 	})
 
 	if err != nil {
@@ -51,7 +52,7 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumRespons
 	response, err := apiClient.request(map[string]string{
 		"action": "most_liked_albums",
 		"url":    "home",
-		"page":   string(page),
+		"page":   strconv.Itoa(page),
 	})
 
 	if err != nil {
