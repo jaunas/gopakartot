@@ -78,6 +78,20 @@ type Track struct {
 	Filename      string      `json:"filename"`
 }
 
+type AlbumTrack struct {
+	*Track
+	AlbumTrackId string `json:"album_track_id"`
+	AlbumId      string `json:"album_track__album_id"`
+	Order        string `json:"album_track_order"`
+	IsDisabled   string `json:"album_track_is_disabled"`
+	Id           string `json:"track_id"`
+	Title        string `json:"track_name"`
+	Length       string `json:"track_length"`
+	Year         string `json:"track_year"`
+	Permalink    string `json:"track_permalink"`
+	Artist       string `json:"performers"`
+}
+
 type NewMusicAlbumResponse struct {
 	*BaseResponse
 	Action string  `json:"action"`
@@ -105,4 +119,11 @@ type GenreAlbumResponse struct {
 type AlbumFilesResponse struct {
 	*BaseResponse
 	Tracks []Track `json:"tracks"`
+}
+
+type AlbumInfoResponse struct {
+	*BaseResponse
+	Legal       bool         `json:"legal"`
+	TotalLength string       `json:"total_length"`
+	Tracks      []AlbumTrack `json:"tracks"`
 }

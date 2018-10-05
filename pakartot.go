@@ -8,11 +8,11 @@ import (
 func main() {
 	apiClient := NewApiClient()
 
-	albumsResponse, err := apiClient.getAlbumFiles(10788)
+	albumsResponse, err := apiClient.getAlbumInfo(10788)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%+v\n", albumsResponse.Tracks)
+	fmt.Printf("%+v\n", albumsResponse)
 }

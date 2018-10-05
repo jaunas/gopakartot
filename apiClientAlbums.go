@@ -111,3 +111,23 @@ func (apiClient *ApiClient) getAlbumFiles(albumId int) (*AlbumFilesResponse, err
 
 	return albumResponse, nil
 }
+
+func (apiClient *ApiClient) getAlbumInfo(albumId int) (*AlbumInfoResponse, error) {
+	response, err := apiClient.request(map[string]string{
+		"url": "album",
+		"id":  strconv.Itoa(albumId),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	albumResponse := &AlbumInfoResponse{}
+	json.Unmarshal(response, albumResponse)
+
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
+}
