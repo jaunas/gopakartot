@@ -67,6 +67,17 @@ type AlbumWithLikeTotalCount struct {
 	LikeTotalCount string `json:"like_total_count"`
 }
 
+type Track struct {
+	LikeCount     interface{} `json:"like_count"`
+	LikeState     string      `json:"like_state"`
+	FullPermalink string      `json:"track_full_permalink"`
+	Id            string      `json:"tid"`
+	Length        string      `json:"length"`
+	Title         string      `json:"title"`
+	Artist        string      `json:"artist"`
+	Filename      string      `json:"filename"`
+}
+
 type NewMusicAlbumResponse struct {
 	*BaseResponse
 	Action string  `json:"action"`
@@ -89,4 +100,9 @@ type GenreAlbumResponse struct {
 	*BaseResponse
 	Albums    []Album `json:"albums"`
 	GenreName string  `json:"genre_name"`
+}
+
+type AlbumFilesResponse struct {
+	*BaseResponse
+	Tracks []Track `json:"tracks"`
 }

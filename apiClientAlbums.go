@@ -90,3 +90,24 @@ func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) (*GenreAlbumRe
 
 	return albumResponse, nil
 }
+
+func (apiClient *ApiClient) getAlbumFiles(albumId int) (*AlbumFilesResponse, error) {
+	response, err := apiClient.request(map[string]string{
+		"action": "album",
+		"url":    "play",
+		"id":     strconv.Itoa(albumId),
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	albumResponse := &AlbumFilesResponse{}
+	json.Unmarshal(response, albumResponse)
+
+	if len(albumResponse.ErrorMessage) > 0 {
+		return nil, errors.New(albumResponse.ErrorMessage)
+	}
+
+	return albumResponse, nil
+}
