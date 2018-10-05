@@ -63,7 +63,7 @@ func (apiClient *ApiClient) request(parameters map[string]string) ([]byte, error
 	return nil, errors.New("Response is not valid JSON.")
 }
 
-func (apiClient *ApiClient) getGengres() []Genre {
+func (apiClient *ApiClient) getGengres() []GenreRaw {
 	response, err := apiClient.request(map[string]string{
 		"url": "genres",
 	})

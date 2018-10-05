@@ -8,7 +8,7 @@ type BaseResponse struct {
 	ErrorMessage string `json:"error_message"`
 }
 
-type Genre struct {
+type GenreRaw struct {
 	Id         string `json:"genre_id"`
 	Name       string `json:"genre_name"`
 	Order      string `json:"genre_order"`
@@ -19,15 +19,15 @@ type Genre struct {
 
 type GenreResponse struct {
 	*BaseResponse
-	Genres []Genre `json:"genres"`
+	Genres []GenreRaw `json:"genres"`
 }
 
-type Like struct {
+type LikeRaw struct {
 	Count interface{} `json:"count"`
 	State string      `json:"state"`
 }
 
-type Album struct {
+type AlbumRaw struct {
 	Id               string      `json:"album_id"`
 	UserId           string      `json:"album__user_id"`
 	LabelId          string      `json:"album__label_id"`
@@ -59,15 +59,15 @@ type Album struct {
 	Genre            string      `json:"genre"`
 	Performers       string      `json:"performers"`
 	PhotoPath        string      `json:"photo_path"`
-	Like             Like        `json:"like"`
+	Like             LikeRaw     `json:"like"`
 }
 
-type AlbumWithLikeTotalCount struct {
-	*Album
+type AlbumWithLikeTotalCountRaw struct {
+	*AlbumRaw
 	LikeTotalCount string `json:"like_total_count"`
 }
 
-type Track struct {
+type TrackRaw struct {
 	LikeCount     interface{} `json:"like_count"`
 	LikeState     string      `json:"like_state"`
 	FullPermalink string      `json:"track_full_permalink"`
@@ -78,8 +78,8 @@ type Track struct {
 	Filename      string      `json:"filename"`
 }
 
-type AlbumTrack struct {
-	*Track
+type AlbumTrackRaw struct {
+	*TrackRaw
 	AlbumTrackId string `json:"album_track_id"`
 	AlbumId      string `json:"album_track__album_id"`
 	Order        string `json:"album_track_order"`
@@ -94,36 +94,36 @@ type AlbumTrack struct {
 
 type NewMusicAlbumResponse struct {
 	*BaseResponse
-	Action string  `json:"action"`
-	Albums []Album `json:"new_music_albums"`
+	Action string     `json:"action"`
+	Albums []AlbumRaw `json:"new_music_albums"`
 }
 
 type NewestAlbumResponse struct {
 	*BaseResponse
-	Action string  `json:"action"`
-	Albums []Album `json:"newest_albums"`
+	Action string     `json:"action"`
+	Albums []AlbumRaw `json:"newest_albums"`
 }
 
 type MostLikedAlbumResponse struct {
 	*BaseResponse
-	Action string                    `json:"action"`
-	Albums []AlbumWithLikeTotalCount `json:"most_liked_albums"`
+	Action string                       `json:"action"`
+	Albums []AlbumWithLikeTotalCountRaw `json:"most_liked_albums"`
 }
 
 type GenreAlbumResponse struct {
 	*BaseResponse
-	Albums    []Album `json:"albums"`
-	GenreName string  `json:"genre_name"`
+	Albums    []AlbumRaw `json:"albums"`
+	GenreName string     `json:"genre_name"`
 }
 
 type AlbumFilesResponse struct {
 	*BaseResponse
-	Tracks []Track `json:"tracks"`
+	Tracks []TrackRaw `json:"tracks"`
 }
 
 type AlbumInfoResponse struct {
 	*BaseResponse
-	Legal       bool         `json:"legal"`
-	TotalLength string       `json:"total_length"`
-	Tracks      []AlbumTrack `json:"tracks"`
+	Legal       bool            `json:"legal"`
+	TotalLength string          `json:"total_length"`
+	Tracks      []AlbumTrackRaw `json:"tracks"`
 }
