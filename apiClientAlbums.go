@@ -69,7 +69,7 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumRespons
 	return albumResponse, nil
 }
 
-func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) (*GenreAlbumResponse, error) {
+func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) ([]*Album, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "albums",
 		"url":    "genres",
@@ -88,7 +88,17 @@ func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) (*GenreAlbumRe
 		return nil, errors.New(albumResponse.ErrorMessage)
 	}
 
-	return albumResponse, nil
+	var albums []*Album
+	for _, rawAlbum := range albumResponse.Albums {
+		album, err := CreateFromRaw(rawAlbum)
+		if err != nil {
+			return nil, err
+		}
+
+		albums = append(albums, album)
+	}
+
+	return albums, nil
 }
 
 func (apiClient *ApiClient) getAlbumFiles(albumId int) (*AlbumFilesResponse, error) {

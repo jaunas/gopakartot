@@ -31,18 +31,18 @@ type AlbumRaw struct {
 	Id               string      `json:"album_id"`
 	UserId           string      `json:"album__user_id"`
 	LabelId          string      `json:"album__label_id"`
-	LabelFreetext    interface{} `json:"album_label_freetext"`
-	ProjectId        interface{} `json:"album__project_id"`
-	AliasId          interface{} `json:"album__alias_id"`
-	GenreId          interface{} `json:"album__genre_id"`
-	AgataId          interface{} `json:"album_agata_id"`
+	LabelFreetext    string      `json:"album_label_freetext"`
+	ProjectId        string      `json:"album__project_id"`
+	AliasId          string      `json:"album__alias_id"`
+	GenreId          string      `json:"album__genre_id"`
+	AgataId          string      `json:"album_agata_id"`
 	Year             string      `json:"album_year"`
 	Name             string      `json:"album_name"`
 	NameGenerated    string      `json:"album_name_generated"`
 	Photo            string      `json:"album_photo"`
 	PhotoOffsetX     string      `json:"album_photo_offset_x"`
 	PhotoOffsetY     string      `json:"album_photo_offset_y"`
-	PublishTime      interface{} `json:"album_publish_time"`
+	PublishTime      string      `json:"album_publish_time"`
 	Permalink        string      `json:"album_permalink"`
 	IsDisabled       string      `json:"album_is_disabled"`
 	IsLocked         string      `json:"album_is_locked"`
