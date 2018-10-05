@@ -63,17 +63,21 @@ func (apiClient *ApiClient) request(parameters map[string]string) ([]byte, error
 	return nil, errors.New("Response is not valid JSON.")
 }
 
-func (apiClient *ApiClient) getGengres() []GenreRaw {
+func (apiClient *ApiClient) getGengres() (*GenreResponse, error) {
 	response, err := apiClient.request(map[string]string{
 		"url": "genres",
 	})
 
 	if err != nil {
-		log.Fatal(err)
+		return nil, err
 	}
 
-	var genreResponse GenreResponse
-	json.Unmarshal(response, &genreResponse)
+	genreResponse := &GenreResponse{}
+	json.Unmarshal(response, genreResponse)
 
-	return genreResponse.Genres
+	if len(genreResponse.ErrorMessage) > 0 {
+		return nil, errors.New(genreResponse.ErrorMessage)
+	}
+
+	return genreResponse, nil
 }
