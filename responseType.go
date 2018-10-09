@@ -70,12 +70,6 @@ type MostLikedAlbumResponse struct {
 	Albums []AlbumWithLikeTotalCountRaw `json:"most_liked_albums"`
 }
 
-type GenreAlbumResponse struct {
-	*BaseResponse
-	Albums    []AlbumRaw `json:"albums"`
-	GenreName string     `json:"genre_name"`
-}
-
 type AlbumFilesResponse struct {
 	*BaseResponse
 	Tracks []TrackRaw `json:"tracks"`
