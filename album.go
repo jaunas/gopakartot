@@ -5,6 +5,41 @@ import (
 	"time"
 )
 
+type AlbumRaw struct {
+	Id               string      `json:"album_id"`
+	UserId           string      `json:"album__user_id"`
+	LabelId          string      `json:"album__label_id"`
+	LabelFreetext    string      `json:"album_label_freetext"`
+	ProjectId        string      `json:"album__project_id"`
+	AliasId          string      `json:"album__alias_id"`
+	GenreId          string      `json:"album__genre_id"`
+	AgataId          string      `json:"album_agata_id"`
+	Year             string      `json:"album_year"`
+	Name             string      `json:"album_name"`
+	NameGenerated    string      `json:"album_name_generated"`
+	Photo            string      `json:"album_photo"`
+	PhotoOffsetX     string      `json:"album_photo_offset_x"`
+	PhotoOffsetY     string      `json:"album_photo_offset_y"`
+	PublishTime      string      `json:"album_publish_time"`
+	Permalink        string      `json:"album_permalink"`
+	IsDisabled       string      `json:"album_is_disabled"`
+	IsLocked         string      `json:"album_is_locked"`
+	State            string      `json:"album_state"`
+	Timestamp        string      `json:"album_timestamp"`
+	Main             interface{} `json:"album_main"`
+	MainOrder        interface{} `json:"album_main_order"`
+	IsAdmin          string      `json:"album_is_admin"`
+	IsEditableByUser string      `json:"album_is_editable_by_user"`
+	FullInfo         string      `json:"album_full_info"`
+	UploadBy         string      `json:"album_upload_by"`
+	EditBy           string      `json:"album_edit_by"`
+	UpdateTime       string      `json:"album_update_time"`
+	Genre            string      `json:"genre"`
+	Performers       string      `json:"performers"`
+	PhotoPath        string      `json:"photo_path"`
+	Like             LikeRaw     `json:"like"`
+}
+
 type Album struct {
 	Id     int
 	UserId int
@@ -39,14 +74,27 @@ type Album struct {
 	Like             *Like
 }
 
-func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
+func (raw AlbumRaw) Parse() (*Album, error) {
 	album := &Album{}
 
-	// Id     int
 	album.Id, _ = strconv.Atoi(raw.Id)
-
-	// UserId int
 	album.UserId, _ = strconv.Atoi(raw.UserId)
+	album.ProjectId, _ = strconv.Atoi(raw.ProjectId)
+	album.AliasId, _ = strconv.Atoi(raw.AliasId)
+	album.GenreId, _ = strconv.Atoi(raw.GenreId)
+	album.AgataId, _ = strconv.Atoi(raw.AgataId)
+	album.Year, _ = strconv.Atoi(raw.Year)
+	album.Name = raw.Name
+	album.NameGenerated = raw.NameGenerated
+	album.Photo, _ = raw.ParsePhoto()
+	album.Permalink = raw.Permalink
+	album.State = raw.State
+	album.FullInfo = raw.FullInfo
+	album.UploadBy, _ = strconv.Atoi(raw.UploadBy)
+	album.EditBy, _ = strconv.Atoi(raw.EditBy)
+	album.Genre = raw.Genre
+	album.Performers = raw.Performers
+	album.Like, _ = raw.Like.Parse()
 
 	// Label  struct {
 	// 	Id       int
@@ -58,30 +106,6 @@ func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 		Freetext: raw.LabelFreetext,
 	}
 
-	// ProjectId        int
-	album.ProjectId, _ = strconv.Atoi(raw.ProjectId)
-
-	// AliasId          int
-	album.AliasId, _ = strconv.Atoi(raw.AliasId)
-
-	// GenreId          int
-	album.GenreId, _ = strconv.Atoi(raw.GenreId)
-
-	// AgataId          int
-	album.AgataId, _ = strconv.Atoi(raw.AgataId)
-
-	// Year             int
-	album.Year, _ = strconv.Atoi(raw.Year)
-
-	// Name             string
-	album.Name = raw.Name
-
-	// NameGenerated    string
-	album.NameGenerated = raw.NameGenerated
-
-	// Photo            Photo
-	album.Photo, _ = raw.ExtractPhoto()
-
 	// PublishTime      time.Time
 	if len(raw.PublishTime) > 0 {
 		time, err := time.Parse("2006-01-02 15:04:05", raw.PublishTime)
@@ -90,9 +114,6 @@ func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 		}
 		album.PublishTime = time
 	}
-
-	// Permalink        string
-	album.Permalink = raw.Permalink
 
 	// IsDisabled       bool
 	if raw.IsDisabled == "N" {
@@ -107,9 +128,6 @@ func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 	} else if raw.IsLocked == "1" {
 		album.IsLocked = true
 	}
-
-	// State            string
-	album.State = raw.State
 
 	// Timestamp        time.Time
 	if len(raw.Timestamp) > 0 {
@@ -144,15 +162,6 @@ func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 		album.IsEditableByUser = true
 	}
 
-	// FullInfo         string
-	album.FullInfo = raw.FullInfo
-
-	// UploadBy         int
-	album.UploadBy, _ = strconv.Atoi(raw.UploadBy)
-
-	// EditBy           int
-	album.EditBy, _ = strconv.Atoi(raw.EditBy)
-
 	// UpdateTime       time.Time
 	if len(raw.UpdateTime) > 0 {
 		time, err := time.Parse("2006-01-02 15:04:05", raw.UpdateTime)
@@ -161,15 +170,6 @@ func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 		}
 		album.UpdateTime = time
 	}
-
-	// Genre            string
-	album.Genre = raw.Genre
-
-	// Performers       string
-	album.Performers = raw.Performers
-
-	// Like             Like
-	album.Like, _ = CreateLikeFromRaw(raw.Like)
 
 	return album, nil
 }

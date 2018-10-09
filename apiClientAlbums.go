@@ -90,7 +90,7 @@ func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) ([]*Album, err
 
 	var albums []*Album
 	for _, rawAlbum := range albumResponse.Albums {
-		album, err := CreateAlbumFromRaw(rawAlbum)
+		album, err := rawAlbum.Parse()
 		if err != nil {
 			return nil, err
 		}

@@ -2,12 +2,17 @@ package main
 
 import "strconv"
 
+type LikeRaw struct {
+	Count interface{} `json:"count"`
+	State string      `json:"state"`
+}
+
 type Like struct {
 	Count int
 	State bool
 }
 
-func CreateLikeFromRaw(raw LikeRaw) (*Like, error) {
+func (raw LikeRaw) Parse() (*Like, error) {
 	likeCount := 0
 	v, ok := raw.Count.(string)
 	if ok {

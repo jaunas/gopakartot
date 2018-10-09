@@ -11,7 +11,7 @@ type Photo struct {
 	Path string
 }
 
-func (raw *AlbumRaw) ExtractPhoto() (*Photo, error) {
+func (raw *AlbumRaw) ParsePhoto() (*Photo, error) {
 	photoOffsetX, _ := strconv.Atoi(raw.PhotoOffsetX)
 	photoOffsetY, _ := strconv.Atoi(raw.PhotoOffsetY)
 
