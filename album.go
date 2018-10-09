@@ -19,7 +19,7 @@ type Album struct {
 	Year             int
 	Name             string
 	NameGenerated    string
-	Photo            Photo
+	Photo            *Photo
 	PublishTime      time.Time
 	Permalink        string
 	IsDisabled       bool
@@ -36,10 +36,10 @@ type Album struct {
 	UpdateTime       time.Time
 	Genre            string
 	Performers       string
-	Like             Like
+	Like             *Like
 }
 
-func CreateFromRaw(raw AlbumRaw) (*Album, error) {
+func CreateAlbumFromRaw(raw AlbumRaw) (*Album, error) {
 	album := &Album{}
 
 	// Id     int
@@ -80,19 +80,7 @@ func CreateFromRaw(raw AlbumRaw) (*Album, error) {
 	album.NameGenerated = raw.NameGenerated
 
 	// Photo            Photo
-	photoOffsetX, _ := strconv.Atoi(raw.PhotoOffsetX)
-	photoOffsetY, _ := strconv.Atoi(raw.PhotoOffsetY)
-	album.Photo = Photo{
-		Photo: raw.Photo,
-		Offset: struct {
-			X int
-			Y int
-		}{
-			X: photoOffsetX,
-			Y: photoOffsetY,
-		},
-		Path: raw.PhotoPath,
-	}
+	album.Photo, _ = raw.ExtractPhoto()
 
 	// PublishTime      time.Time
 	if len(raw.PublishTime) > 0 {
@@ -181,19 +169,7 @@ func CreateFromRaw(raw AlbumRaw) (*Album, error) {
 	album.Performers = raw.Performers
 
 	// Like             Like
-	likeCount := 0
-	v, ok := raw.Like.Count.(string)
-	if ok {
-		likeCount, _ = strconv.Atoi(v)
-	}
-	likeState := false
-	if raw.Like.State == "on" {
-		likeState = true
-	}
-	album.Like = Like{
-		Count: likeCount,
-		State: likeState,
-	}
+	album.Like, _ = CreateLikeFromRaw(raw.Like)
 
 	return album, nil
 }
