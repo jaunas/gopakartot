@@ -27,7 +27,7 @@ func (apiClient *ApiClient) getNewMusicAlbums(page int) (*NewMusicAlbumResponse,
 	return albumResponse, nil
 }
 
-func (apiClient *ApiClient) getNewestAlbums(page int) (*NewestAlbumResponse, error) {
+func (apiClient *ApiClient) getNewestAlbums(page int) ([]*Album, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "newest_albums",
 		"url":    "home",
@@ -40,12 +40,13 @@ func (apiClient *ApiClient) getNewestAlbums(page int) (*NewestAlbumResponse, err
 
 	albumResponse := &NewestAlbumResponse{}
 	json.Unmarshal(response, albumResponse)
+	albumResponse.AlbumsResponse.Albums = albumResponse.Albums
 
 	if len(albumResponse.ErrorMessage) > 0 {
 		return nil, errors.New(albumResponse.ErrorMessage)
 	}
 
-	return albumResponse, nil
+	return albumResponse.GetAlbums()
 }
 
 func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumResponse, error) {

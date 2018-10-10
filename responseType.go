@@ -58,12 +58,6 @@ type NewMusicAlbumResponse struct {
 	Albums []AlbumRaw `json:"new_music_albums"`
 }
 
-type NewestAlbumResponse struct {
-	*BaseResponse
-	Action string     `json:"action"`
-	Albums []AlbumRaw `json:"newest_albums"`
-}
-
 type MostLikedAlbumResponse struct {
 	*BaseResponse
 	Action string                       `json:"action"`
