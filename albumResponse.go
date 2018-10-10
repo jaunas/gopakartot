@@ -5,6 +5,12 @@ type AlbumsResponse struct {
 	Albums []AlbumRaw `json:"albums"`
 }
 
+type NewMusicAlbumResponse struct {
+	*AlbumsResponse
+	Albums []AlbumRaw `json:"new_music_albums"`
+	Action string     `json:"action"`
+}
+
 type NewestAlbumResponse struct {
 	*AlbumsResponse
 	Albums []AlbumRaw `json:"newest_albums"`

@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func (apiClient *ApiClient) getNewMusicAlbums(page int) (*NewMusicAlbumResponse, error) {
+func (apiClient *ApiClient) getNewMusicAlbums(page int) ([]*Album, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "new_music_albums",
 		"url":    "home",
@@ -19,12 +19,13 @@ func (apiClient *ApiClient) getNewMusicAlbums(page int) (*NewMusicAlbumResponse,
 
 	albumResponse := &NewMusicAlbumResponse{}
 	json.Unmarshal(response, &albumResponse)
+	albumResponse.AlbumsResponse.Albums = albumResponse.Albums
 
 	if len(albumResponse.ErrorMessage) > 0 {
 		return nil, errors.New(albumResponse.ErrorMessage)
 	}
 
-	return albumResponse, nil
+	return albumResponse.GetAlbums()
 }
 
 func (apiClient *ApiClient) getNewestAlbums(page int) ([]*Album, error) {

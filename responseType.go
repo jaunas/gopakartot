@@ -52,12 +52,6 @@ type AlbumTrackRaw struct {
 	Artist       string `json:"performers"`
 }
 
-type NewMusicAlbumResponse struct {
-	*BaseResponse
-	Action string     `json:"action"`
-	Albums []AlbumRaw `json:"new_music_albums"`
-}
-
 type MostLikedAlbumResponse struct {
 	*BaseResponse
 	Action string                       `json:"action"`
