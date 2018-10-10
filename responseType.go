@@ -22,11 +22,6 @@ type GenreResponse struct {
 	Genres []GenreRaw `json:"genres"`
 }
 
-type AlbumWithLikeTotalCountRaw struct {
-	*AlbumRaw
-	LikeTotalCount string `json:"like_total_count"`
-}
-
 type TrackRaw struct {
 	LikeCount     interface{} `json:"like_count"`
 	LikeState     string      `json:"like_state"`
@@ -50,12 +45,6 @@ type AlbumTrackRaw struct {
 	Year         string `json:"track_year"`
 	Permalink    string `json:"track_permalink"`
 	Artist       string `json:"performers"`
-}
-
-type MostLikedAlbumResponse struct {
-	*BaseResponse
-	Action string                       `json:"action"`
-	Albums []AlbumWithLikeTotalCountRaw `json:"most_liked_albums"`
 }
 
 type AlbumFilesResponse struct {

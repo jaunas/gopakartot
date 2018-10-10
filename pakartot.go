@@ -8,13 +8,13 @@ import (
 func main() {
 	apiClient := NewApiClient()
 
-	albumsResponse, err := apiClient.getNewMusicAlbums(1)
+	albumsResponse, err := apiClient.getMostLikedAlbums(1)
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	for _, album := range albumsResponse {
-		fmt.Printf("%+v\n", album)
+		fmt.Printf("%+v\n", album.Like)
 	}
 }

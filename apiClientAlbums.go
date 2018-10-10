@@ -50,7 +50,7 @@ func (apiClient *ApiClient) getNewestAlbums(page int) ([]*Album, error) {
 	return albumResponse.GetAlbums()
 }
 
-func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumResponse, error) {
+func (apiClient *ApiClient) getMostLikedAlbums(page int) ([]*Album, error) {
 	response, err := apiClient.request(map[string]string{
 		"action": "most_liked_albums",
 		"url":    "home",
@@ -63,12 +63,13 @@ func (apiClient *ApiClient) getMostLikedAlbums(page int) (*MostLikedAlbumRespons
 
 	albumResponse := &MostLikedAlbumResponse{}
 	json.Unmarshal(response, albumResponse)
+	albumResponse.AlbumsResponse.Albums = albumResponse.Albums
 
 	if len(albumResponse.ErrorMessage) > 0 {
 		return nil, errors.New(albumResponse.ErrorMessage)
 	}
 
-	return albumResponse, nil
+	return albumResponse.GetAlbums()
 }
 
 func (apiClient *ApiClient) getGenreAlbums(genreId int, page int) ([]*Album, error) {
